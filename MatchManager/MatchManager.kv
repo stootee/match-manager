@@ -1,0 +1,70 @@
+<ControlButtonsWidget>:
+    BoxLayout:
+        size: 250,20
+        pos: root.pos
+        orientation: 'horizontal'
+        Button:
+            size: 10, 10
+            id: start_button
+            text: 'Start'
+            on_press: root.popup()
+        Button:
+            id: stop_button
+            text: 'Stop'
+        Button:
+            id: reset_button
+            text: 'Reset'
+        Button:
+            id: quit_button
+            text: 'Quit'
+            on_press: app.stop()
+
+<TimerOutputWidget>
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'horizontal'
+        Label:
+            text: 'Timer'
+        TextInput:
+            multiline: False
+
+<GoalScoredWidget>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        Button:
+            text: 'Goal'
+            on_press: root.popup()
+
+<ManagerBoxUI>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        id: foo_bar
+        orientation: 'vertical'
+        ControlButtonsWidget:
+        TimerOutputWidget:
+        GoalScoredWidget:
+
+<CPopup>:
+    size: 50, 100
+    title: "Goal!!"
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label:
+                text: 'Really?'
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'OK'
+                on_release: root.dismiss()
+            Button:
+                text: 'Cancel'
+                on_release: root.dismiss()
+
+
+
+

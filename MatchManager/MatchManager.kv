@@ -1,19 +1,21 @@
 <ControlButtonsWidget>:
     BoxLayout:
-        size: 250,20
-        pos: root.pos
+        size: root.size
+        spacing: 5
         orientation: 'horizontal'
+        pos: root.pos
         Button:
-            size: 10, 10
             id: start_button
             text: 'Start'
-            on_press: root.popup()
+            on_press: app._start_timer()
         Button:
             id: stop_button
             text: 'Stop'
+            on_press: app._stop_timer()
         Button:
             id: reset_button
             text: 'Reset'
+            on_press: app._reset_timer()
         Button:
             id: quit_button
             text: 'Quit'
@@ -21,22 +23,23 @@
 
 <TimerOutputWidget>
     BoxLayout:
+        border: 50
         size: root.size
         pos: root.pos
         orientation: 'horizontal'
         Label:
-            text: 'Timer'
-        TextInput:
-            multiline: False
+            font_size: 48
+            text: app._set_time(app._elapsedtime)
 
-<GoalScoredWidget>:
+<GoalButtonWidget>:
     BoxLayout:
+        padding: 50
         size: root.size
         pos: root.pos
         orientation: 'vertical'
         Button:
             text: 'Goal'
-            on_press: root.popup()
+            on_press: app.goal_popup()
 
 <ManagerBoxUI>:
     BoxLayout:
@@ -45,17 +48,20 @@
         id: foo_bar
         orientation: 'vertical'
         ControlButtonsWidget:
+            size_hint: 1, 0.2
         TimerOutputWidget:
-        GoalScoredWidget:
+            size_hint: 1, 0.5
+        GoalButtonWidget:
+
 
 <CPopup>:
-    size: 50, 100
-    title: "Goal!!"
+    size: root.size
+    title: root.title
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
             Label:
-                text: 'Really?'
+                text: "Ooh, something happened"
         BoxLayout:
             orientation: 'horizontal'
             Button:

@@ -7,9 +7,11 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
-from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
 from datetime import datetime
 import time
 import logging
@@ -28,56 +30,27 @@ def _logger(log_details):
     print(run_uid, datetime.now().strftime('%Y%m%d %H:%M:%S'), log_details)
 
 
-class ManagerBoxUI(Widget):
-    def __init__(self, **kwargs):
-        super(ManagerBoxUI, self).__init__(**kwargs)
-
-
-class CPopup(Popup):
-    def __init__(self, **kwargs):
-        super(CPopup, self).__init__(**kwargs)
-
-
-class ControlButtonsWidget(Widget):
-    def __init__(self, **kwargs):
-        super(ControlButtonsWidget, self).__init__(**kwargs)
-
-
-class TimerOutputWidget(Widget):
-    def __init__(self, **kwargs):
-        super(TimerOutputWidget, self).__init__(**kwargs)
-
-
-class GoalButtonWidget(Widget):
-    def __init__(self, **kwargs):
-        super(GoalButtonWidget, self).__init__(**kwargs)
-
-
-class MatchManagerApp(App):
+class MainScreenManager(ScreenManager):
     _elapsedtime = NumericProperty()
-    timestr = StringProperty()
+    timestr = ObjectProperty()
     _running = False
+    _hello = "Stuart"
 
     def __init__(self, **kwargs):
-        super(MatchManagerApp, self).__init__(**kwargs)
+        super(MainScreenManager, self).__init__(**kwargs)
         self.increment_time(0)
 
     def increment_time(self, interval):
         self._elapsedtime += interval
 
-    def build(self):
-        Window.size = (300, 300)
-        manager = ManagerBoxUI()
-        return manager
-
     def _set_time(self, elap):
         """ Set the time string to Hours:Minutes:Seconds """
-        hours = int(elap / 360)
-        minutes = int((elap - hours * 360) / 60)
-        seconds = int((elap - hours * 360) - minutes * 60.0)
-        hseconds = int(((elap - hours * 360) - minutes * 60.0 - seconds) * 100)
+        hours = int(elap / 3600)
+        minutes = int((elap - hours * 3600) / 60)
+        seconds = int((elap - hours * 3600) - minutes * 60.0)
+        hseconds = int(((elap - hours * 3600) - minutes * 60.0 - seconds) * 100)
         self.timestr = '%02d : %02d : %02d' % (hours, minutes, seconds)
-        return '%02d : %02d : %02d' % (hours, minutes, seconds)
+        return self.timestr
 
     def _reset_timer(self):
         """ Reset the stopwatch. """
@@ -113,7 +86,47 @@ class MatchManagerApp(App):
             p.open()
 
 
+class ManagerBoxUI(Screen):
+    def __init__(self, **kwargs):
+        super(ManagerBoxUI, self).__init__(**kwargs)
+
+
+class SquadScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SquadScreen, self).__init__(**kwargs)
+
+
+class CPopup(Popup):
+    def __init__(self, **kwargs):
+        super(CPopup, self).__init__(**kwargs)
+
+
+class ControlButtonsWidget(Widget):
+    def __init__(self, **kwargs):
+        super(ControlButtonsWidget, self).__init__(**kwargs)
+
+
+class TimerOutputWidget(Widget):
+    def __init__(self, **kwargs):
+        super(TimerOutputWidget, self).__init__(**kwargs)
+
+    _elapsedtime = StringProperty()
+
+
+class GoalButtonWidget(Widget):
+    def __init__(self, **kwargs):
+        super(GoalButtonWidget, self).__init__(**kwargs)
+
+
+class MatchManagerApp(App):
+    def __init__(self, **kwargs):
+        super(MatchManagerApp, self).__init__(**kwargs)
+
+    def build(self):
+        Window.size = (300, 300)
+        return root_widget
 
 if __name__ == '__main__':
+    root_widget = Builder.load_file('MatchManager.kv')
     run_uid = int(time.time())
     MatchManagerApp().run()

@@ -1,3 +1,7 @@
+MainScreenManager:
+    ManagerBoxUI:
+    SquadScreen:
+
 <ControlButtonsWidget>:
     BoxLayout:
         size: root.size
@@ -5,19 +9,15 @@
         orientation: 'horizontal'
         pos: root.pos
         Button:
-            id: start_button
             text: 'Start'
-            on_press: app._start_timer()
+            on_press: app.root._start_timer()
         Button:
-            id: stop_button
             text: 'Stop'
-            on_press: app._stop_timer()
+            on_press: app.root._stop_timer()
         Button:
-            id: reset_button
             text: 'Reset'
-            on_press: app._reset_timer()
+            on_press: app.root._reset_timer()
         Button:
-            id: quit_button
             text: 'Quit'
             on_press: app.stop()
 
@@ -29,7 +29,7 @@
         orientation: 'horizontal'
         Label:
             font_size: 48
-            text: app._set_time(app._elapsedtime)
+            text: timestr #app._set_time(app._elapsedtime)
 
 <GoalButtonWidget>:
     BoxLayout:
@@ -39,9 +39,10 @@
         orientation: 'vertical'
         Button:
             text: 'Goal'
-            on_press: app.goal_popup()
+            on_release: app.root.current = 'squad_screen'
 
 <ManagerBoxUI>:
+    name: 'manager_screen'
     BoxLayout:
         size: root.size
         pos: root.pos
@@ -52,7 +53,6 @@
         TimerOutputWidget:
             size_hint: 1, 0.5
         GoalButtonWidget:
-
 
 <CPopup>:
     size: root.size
@@ -71,6 +71,11 @@
                 text: 'Cancel'
                 on_release: root.dismiss()
 
-
-
-
+<SquadScreen>:
+    name: 'squad_screen'
+    BoxLayout:
+        Button:
+            text: 'My settings button'
+        Button:
+            text: 'Back to menu'
+            on_press: app.root.current = 'manager_screen'

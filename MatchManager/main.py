@@ -31,17 +31,13 @@ def _logger(log_details):
 
 
 class MainScreenManager(ScreenManager):
-    _elapsedtime = NumericProperty()
-    timestr = ObjectProperty()
+    _elapsedtime = NumericProperty(0)
+    timestr = StringProperty()
     _running = False
-    _hello = "Stuart"
 
     def __init__(self, **kwargs):
         super(MainScreenManager, self).__init__(**kwargs)
         self.increment_time(0)
-
-    def increment_time(self, interval):
-        self._elapsedtime += interval
 
     def _set_time(self, elap):
         """ Set the time string to Hours:Minutes:Seconds """
@@ -49,8 +45,14 @@ class MainScreenManager(ScreenManager):
         minutes = int((elap - hours * 3600) / 60)
         seconds = int((elap - hours * 3600) - minutes * 60.0)
         hseconds = int(((elap - hours * 3600) - minutes * 60.0 - seconds) * 100)
-        self.timestr = '%02d : %02d : %02d' % (hours, minutes, seconds)
-        return self.timestr
+        if hours > 0:
+            self.timestr = '%02d:%02d:%02d' % (hours, minutes, seconds)
+        self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
+        return '%02d:%02d:%02d.%02d' % (hours, minutes, seconds, hseconds)
+
+    def increment_time(self, interval):
+        self._elapsedtime += interval
+        self._set_time(self._elapsedtime)
 
     def _reset_timer(self):
         """ Reset the stopwatch. """
@@ -91,9 +93,9 @@ class ManagerBoxUI(Screen):
         super(ManagerBoxUI, self).__init__(**kwargs)
 
 
-class SquadScreen(Screen):
+class GoalScreen(Screen):
     def __init__(self, **kwargs):
-        super(SquadScreen, self).__init__(**kwargs)
+        super(GoalScreen, self).__init__(**kwargs)
 
 
 class CPopup(Popup):
@@ -109,8 +111,6 @@ class ControlButtonsWidget(Widget):
 class TimerOutputWidget(Widget):
     def __init__(self, **kwargs):
         super(TimerOutputWidget, self).__init__(**kwargs)
-
-    _elapsedtime = StringProperty()
 
 
 class GoalButtonWidget(Widget):

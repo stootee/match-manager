@@ -1,6 +1,7 @@
 MainScreenManager:
+    id: mainscreenmanager
     ManagerBoxUI:
-    SquadScreen:
+    GoalScreen:
 
 <ControlButtonsWidget>:
     BoxLayout:
@@ -22,6 +23,7 @@ MainScreenManager:
             on_press: app.stop()
 
 <TimerOutputWidget>
+    name: 'timer_output'
     BoxLayout:
         border: 50
         size: root.size
@@ -29,7 +31,7 @@ MainScreenManager:
         orientation: 'horizontal'
         Label:
             font_size: 48
-            text: timestr #app._set_time(app._elapsedtime)
+            text: str(self.parent.parent.parent.parent.parent.timestr)
 
 <GoalButtonWidget>:
     BoxLayout:
@@ -39,7 +41,7 @@ MainScreenManager:
         orientation: 'vertical'
         Button:
             text: 'Goal'
-            on_release: app.root.current = 'squad_screen'
+            on_release: app.root.current = 'goal_screen'
 
 <ManagerBoxUI>:
     name: 'manager_screen'
@@ -54,26 +56,10 @@ MainScreenManager:
             size_hint: 1, 0.5
         GoalButtonWidget:
 
-<CPopup>:
-    size: root.size
-    title: root.title
+<GoalScreen>:
+    name: 'goal_screen'
     BoxLayout:
-        orientation: 'vertical'
-        BoxLayout:
-            Label:
-                text: "Ooh, something happened"
-        BoxLayout:
-            orientation: 'horizontal'
-            Button:
-                text: 'OK'
-                on_release: root.dismiss()
-            Button:
-                text: 'Cancel'
-                on_release: root.dismiss()
 
-<SquadScreen>:
-    name: 'squad_screen'
-    BoxLayout:
         Button:
             text: 'My settings button'
         Button:

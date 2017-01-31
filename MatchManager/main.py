@@ -47,7 +47,8 @@ class MainScreenManager(ScreenManager):
         hseconds = int(((elap - hours * 3600) - minutes * 60.0 - seconds) * 100)
         if hours > 0:
             self.timestr = '%02d:%02d:%02d' % (hours, minutes, seconds)
-        self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
+        else:
+            self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
         return '%02d:%02d:%02d.%02d' % (hours, minutes, seconds, hseconds)
 
     def increment_time(self, interval):
@@ -73,19 +74,6 @@ class MainScreenManager(ScreenManager):
             _logger(('STOP', self._set_time(self._elapsedtime)))
             Clock.unschedule(self.increment_time, .1)
             self._running = 0
-
-    def goal_popup(self):
-        which_side_scored = 'Home'
-        if self._running:
-            _logger(('GOAL:%s' % which_side_scored, self._set_time(self._elapsedtime)))
-            p = CPopup(title="Goal!!", text="oooh, a goal")
-            p.open()
-
-    def start_popup(self):
-        if not self._running:
-            _logger('START' + '::' + self._set_time(self._elapsedtime))
-            p = CPopup(title="Start", text='Test')
-            p.open()
 
 
 class ManagerBoxUI(Screen):

@@ -41,6 +41,7 @@ MainScreenManager:
         orientation: 'vertical'
         Button:
             text: 'Goal'
+            #on_press: timer_output.text = ''
             on_release: app.root.current = 'goal_screen'
 
 <ManagerBoxUI>:
@@ -59,9 +60,11 @@ MainScreenManager:
 <GoalScreen>:
     name: 'goal_screen'
     BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
 
-        Button:
-            text: 'My settings button'
-        Button:
-            text: 'Back to menu'
-            on_press: app.root.current = 'manager_screen'
+            Button:
+                text: 'My settings button'
+            Button:
+                text: 'Back to menu'
+                on_press: app.root.current = 'manager_screen'

@@ -34,7 +34,7 @@ class ManagerUI(Frame):
         self.init_ui()
 
     def timer_widget(self):
-        """ Make the time label. """
+        """ Make the time lable. """
         l = Label(
             self,
             textvariable=self.timestr,

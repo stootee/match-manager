@@ -34,6 +34,7 @@ class MainScreenManager(ScreenManager):
     _elapsedtime = NumericProperty(0)
     timestr = StringProperty()
     _running = False
+    _update = True
 
     def __init__(self, **kwargs):
         super(MainScreenManager, self).__init__(**kwargs)
@@ -45,10 +46,11 @@ class MainScreenManager(ScreenManager):
         minutes = int((elap - hours * 3600) / 60)
         seconds = int((elap - hours * 3600) - minutes * 60.0)
         hseconds = int(((elap - hours * 3600) - minutes * 60.0 - seconds) * 100)
-        if hours > 0:
-            self.timestr = '%02d:%02d:%02d' % (hours, minutes, seconds)
-        else:
-            self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
+        if self._update:
+            if hours > 0:
+                self.timestr = '%02d:%02d:%02d' % (hours, minutes, seconds)
+            else:
+                self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
         return '%02d:%02d:%02d.%02d' % (hours, minutes, seconds, hseconds)
 
     def increment_time(self, interval):

@@ -1,7 +1,95 @@
 MainScreenManager:
     id: mainscreenmanager
-    ManagerBoxUI:
-    GoalScreen:
+    Screen:
+        name: 'manager_screen'
+        BoxLayout:
+            size: root.size
+            pos: root.pos
+            id: foo_bar
+            orientation: 'vertical'
+            ControlButtonsWidget:
+                size_hint: 1, 0.2
+            BoxLayout:
+                size_hint: 1, 0.5
+                border: 50
+                size: root.size
+                pos: root.pos
+                orientation: 'horizontal'
+                Label:
+                    font_size: 48
+                    text: str(root.timestr)
+            GoalButtonWidget:
+    Screen:
+        name: 'goal_screen'
+        BoxLayout:
+            orientation: 'vertical'
+            border: 0
+            size: root.size
+            pos: root.pos
+            Label:
+                size_hint: 1, 0.2
+                font_size: 12
+                text: 'Goal Scored: ' + str(root.timestr) + '\nClick on the shirt number of the scorer'
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, 0.2
+                ToggleButton:
+                    text: 'Home'
+                    state: 'normal'
+                    group: 'g1'
+                ToggleButton:
+                    text: 'Away'
+                    state: 'normal'
+                    group: 'g1'
+            GridLayout:
+                cols: 4
+                Button:
+                    text: '1'
+                Button:
+                    text: '2'
+                Button:
+                    text: '3'
+                Button:
+                    text: '4'
+                Button:
+                    text: '5'
+                Button:
+                    text: '6'
+                Button:
+                    text: '7'
+                Button:
+                    text: '8'
+                Button:
+                    text: '9'
+                Button:
+                    text: '10'
+                Button:
+                    text: '11'
+                Button:
+                    text: '12'
+                Button:
+                    text: '13'
+                Button:
+                    text: '14'
+                Button:
+                    text: '15'
+                Button:
+                    text: '16'
+                Button:
+                    text: '17'
+                Button:
+                    text: '18'
+                Button:
+                    text: '19'
+                Button:
+                    text: '20'
+            Label:
+                size_hint: 1, 0.1
+            Button:
+                size_hint: 1, 0.2
+                text: 'Back to the game'
+                on_press: app.root.current = 'manager_screen'
+                on_release: app.root._update = True
 
 <ControlButtonsWidget>:
     BoxLayout:
@@ -22,17 +110,6 @@ MainScreenManager:
             text: 'Quit'
             on_press: app.stop()
 
-<TimerOutputWidget>
-    name: 'timer_output'
-    BoxLayout:
-        border: 50
-        size: root.size
-        pos: root.pos
-        orientation: 'horizontal'
-        Label:
-            font_size: 48
-            text: str(self.parent.parent.parent.parent.parent.timestr)
-
 <GoalButtonWidget>:
     BoxLayout:
         padding: 50
@@ -41,30 +118,5 @@ MainScreenManager:
         orientation: 'vertical'
         Button:
             text: 'Goal'
-            #on_press: timer_output.text = ''
+            on_press: app.root._update = False
             on_release: app.root.current = 'goal_screen'
-
-<ManagerBoxUI>:
-    name: 'manager_screen'
-    BoxLayout:
-        size: root.size
-        pos: root.pos
-        id: foo_bar
-        orientation: 'vertical'
-        ControlButtonsWidget:
-            size_hint: 1, 0.2
-        TimerOutputWidget:
-            size_hint: 1, 0.5
-        GoalButtonWidget:
-
-<GoalScreen>:
-    name: 'goal_screen'
-    BoxLayout:
-        orientation: 'vertical'
-        BoxLayout:
-
-            Button:
-                text: 'My settings button'
-            Button:
-                text: 'Back to menu'
-                on_press: app.root.current = 'manager_screen'

@@ -26,10 +26,6 @@ TODO:
 """
 
 
-def _logger(log_details):
-    print(run_uid, datetime.now().strftime('%Y%m%d %H:%M:%S'), log_details)
-
-
 class MainScreenManager(ScreenManager):
     _elapsedtime = NumericProperty(0)
     timestr = StringProperty()
@@ -39,6 +35,9 @@ class MainScreenManager(ScreenManager):
     def __init__(self, **kwargs):
         super(MainScreenManager, self).__init__(**kwargs)
         self.increment_time(0)
+
+    def _logger(self, log_details):
+        print(run_uid, datetime.now().strftime('%Y%m%d %H:%M:%S'), log_details)
 
     def _set_time(self, elap):
         """ Set the time string to Hours:Minutes:Seconds """
@@ -59,21 +58,21 @@ class MainScreenManager(ScreenManager):
 
     def _reset_timer(self):
         """ Reset the stopwatch. """
-        _logger(('RESET', self._set_time(self._elapsedtime)))
+        self._logger(('RESET', self._set_time(self._elapsedtime)))
         self._elapsedtime = 0.0
         self._set_time(self._elapsedtime)
 
     def _start_timer(self):
         """ Start the stopwatch, ignore if running. """
         if not self._running:
-            _logger(('START', self._set_time(self._elapsedtime)))
+            self._logger(('START', self._set_time(self._elapsedtime)))
             Clock.schedule_interval(self.increment_time, .01)
             self._running = 1
 
     def _stop_timer(self):
         """ Stop the stopwatch, ignore if stopped. """
         if self._running:
-            _logger(('STOP', self._set_time(self._elapsedtime)))
+            self._logger(('STOP', self._set_time(self._elapsedtime)))
             Clock.unschedule(self.increment_time, .1)
             self._running = 0
 

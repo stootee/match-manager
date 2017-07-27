@@ -36,53 +36,73 @@ MainScreenManager:
                 ToggleButton:
                     text: 'Home'
                     state: 'normal'
-                    group: 'g1'
+                    group: 'team'
                 ToggleButton:
                     text: 'Away'
                     state: 'normal'
-                    group: 'g1'
+                    group: 'team'
             GridLayout:
                 cols: 4
-                Button:
+                ToggleButton:
                     text: '1'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '2'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '3'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '4'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '5'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '6'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '7'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '8'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '9'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '10'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '11'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '12'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '13'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '14'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '15'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '16'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '17'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '18'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '19'
-                Button:
+                    group: 'scorer'
+                ToggleButton:
                     text: '20'
+                    group: 'scorer'
             Label:
                 size_hint: 1, 0.1
             Button:
@@ -90,6 +110,7 @@ MainScreenManager:
                 text: 'Back to the game'
                 on_press: app.root.current = 'manager_screen'
                 on_release: app.root._update = True
+                on_release: app.root._logger(('')
 
 <ControlButtonsWidget>:
     BoxLayout:

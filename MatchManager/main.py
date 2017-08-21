@@ -1,23 +1,15 @@
 import kivy
 from kivy.app import App
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
-from kivy.properties import StringProperty, NumericProperty, ObjectProperty, ListProperty
-from kivy.core.window import Window
+from kivy.properties import StringProperty, NumericProperty, ListProperty
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.behaviors import ToggleButtonBehavior
-from kivy.uix.scrollview import ScrollView
-from kivy.graphics.context_instructions import Color
 from datetime import datetime
 import time
-from datetime import datetime, timedelta
 import logging
 import math
 kivy.require('1.9.1')
@@ -25,7 +17,13 @@ kivy.require('1.9.1')
 """
 TODO:
     setup proper logging
-    create squad management UI
+    create squad management -- names in settings?
+        how do we deal with two teams names?
+    which half is it?
+        are we into added / extra time?
+    dynamic font sizes for clock and scores
+    what should reset do?
+    confirm before quit
     send to sns / log to s3
     sounds?
 """
@@ -61,19 +59,22 @@ class MainScreenManager(ScreenManager):
             if _t.state == 'down':
                 _team_who_scored = _t.text
                 _tws_name = _t.name
-                if _t.name == 'home':
-                    self._home += 1
-                else:
-                    self._away += 1
+
         for _s in s:
             if _s.state == 'down':
                 _person_who_scored = _s.text
-                if _tws_name == 'home':
-                    self._h_scorers.append('%s (%s)' % (_s.text, minutes))
-                else:
-                    self._a_scorers.append('%s (%s)' % (_s.text, minutes))
 
         if _team_who_scored and _person_who_scored:
+            if _tws_name == 'home':
+                self._home += 1
+            else:
+                self._away += 1
+
+            if _tws_name == 'home':
+                self._h_scorers.append('%s (%s)' % (_person_who_scored, minutes))
+            else:
+                self._a_scorers.append('%s (%s)' % (_person_who_scored, minutes))
+
             self._goals.append((_team_who_scored, _person_who_scored, time_of_goal),)
             self.current = 'manager_screen'
             self._update = True
@@ -94,11 +95,9 @@ class MainScreenManager(ScreenManager):
         minutes = int((elap - hours * 3600) / 60)
         seconds = int((elap - hours * 3600) - minutes * 60.0)
         hseconds = int(((elap - hours * 3600) - minutes * 60.0 - seconds) * 100)
+        display_minutes = int(elap / 60)
         if self._update:
-            if hours > 0:
-                self.timestr = '%02d:%02d:%02d' % (hours, minutes, seconds)
-            else:
-                self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
+            self.timestr = '%02d:%02d' % (display_minutes, seconds)
         return '%02d:%02d:%02d.%02d' % (hours, minutes, seconds, hseconds)
 
     def increment_time(self, interval):
@@ -161,7 +160,7 @@ class MatchManagerApp(App):
         super(MatchManagerApp, self).__init__(**kwargs)
 
     def build(self):
-        Window.size = (300, 500)
+        #Window.size = (300, 500)
         return root_widget
 
 if __name__ == '__main__':

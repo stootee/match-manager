@@ -10,17 +10,53 @@ MainScreenManager:
             ControlButtonsWidget:
                 size_hint: 1, 0.2
             BoxLayout:
-                size_hint: 1, 0.5
+                size_hint: 1, 1
                 border: 50
                 size: root.size
                 pos: root.pos
-                orientation: 'horizontal'
+                orientation: 'vertical'
                 Label:
                     font_size: 48
                     text: str(root.timestr)
+                Label:
+                    font_size: 55
+                    text: '%s - %s' % (root._home, root._away)
+                BoxLayout:
+                    orientation: 'horizontal'
+                    font_size: 10
+                    Label:
+                        text: ', '.join(root._h_scorers)
+                    Label:
+                        text: ', '.join(root._a_scorers)
             GoalButtonWidget:
     Screen:
+        id: 'goal_screen'
         name: 'goal_screen'
+        on_pre_enter:
+            home.state = 'normal'
+            away.state = 'normal'
+            s_button1.state = 'normal'
+            s_button2.state = 'normal'
+            s_button3.state = 'normal'
+            s_button4.state = 'normal'
+            s_button5.state = 'normal'
+            s_button6.state = 'normal'
+            s_button7.state = 'normal'
+            s_button8.state = 'normal'
+            s_button9.state = 'normal'
+            s_button10.state = 'normal'
+            s_button11.state = 'normal'
+            s_button12.state = 'normal'
+            s_button13.state = 'normal'
+            s_button14.state = 'normal'
+            s_button15.state = 'normal'
+            s_button16.state = 'normal'
+            s_button17.state = 'normal'
+            s_button18.state = 'normal'
+            s_button19.state = 'normal'
+            s_button20.state = 'normal'
+            s_button21.state = 'normal'
+            s_button22.state = 'normal'
         BoxLayout:
             orientation: 'vertical'
             border: 0
@@ -34,83 +70,146 @@ MainScreenManager:
                 orientation: 'horizontal'
                 size_hint: 1, 0.2
                 ToggleButton:
+                    id: home
+                    name: 'home'
                     text: 'Home'
                     state: 'normal'
                     group: 'team'
                 ToggleButton:
+                    id: away
+                    name: 'away'
                     text: 'Away'
                     state: 'normal'
                     group: 'team'
             GridLayout:
-                cols: 4
+                cols: 5
+                size_hint: 1, 0.8
                 ToggleButton:
+                    id: s_button1
+                    name: 's_button1'
                     text: '1'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button2
+                    name: 's_button2'
                     text: '2'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button3
+                    name: 's_button3'
                     text: '3'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button4
+                    name: 's_button4'
                     text: '4'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button5
+                    name: 's_button5'
                     text: '5'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button6
+                    name: 's_button6'
                     text: '6'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button7
+                    name: 's_button7'
                     text: '7'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button8
+                    name: 's_button8'
                     text: '8'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button9
+                    name: 's_button9'
                     text: '9'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button10
+                    name: 's_button10'
                     text: '10'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button11
+                    name: 's_button11'
                     text: '11'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button12
+                    name: 's_button12'
                     text: '12'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button13
+                    name: 's_button13'
                     text: '13'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button14
+                    name: 's_button14'
                     text: '14'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button15
+                    name: 's_button15'
                     text: '15'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button16
+                    name: 's_button16'
                     text: '16'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button17
+                    name: 's_button17'
                     text: '17'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button18
+                    name: 's_button18'
                     text: '18'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button19
+                    name: 's_button19'
                     text: '19'
                     group: 'scorer'
                 ToggleButton:
+                    id: s_button20
+                    name: 's_button20'
                     text: '20'
+                    group: 'scorer'
+            GridLayout:
+                cols: 2
+                size_hint: 1, 0.2
+                ToggleButton:
+                    id: s_button21
+                    name: 's_button21'
+                    text: 'Unknown'
+                    group: 'scorer'
+                ToggleButton:
+                    id: s_button22
+                    name: 's_button22'
+                    text: 'Own Goal'
                     group: 'scorer'
             Label:
                 size_hint: 1, 0.1
-            Button:
+            BoxLayout:
+                orientation: 'horizontal'
                 size_hint: 1, 0.2
-                text: 'Back to the game'
-                on_press: app.root.current = 'manager_screen'
-                on_release: app.root._update = True
-                on_release: app.root._logger(('')
+                Button:
+                    text: 'OK'
+                    on_release: app.root.record_who_scored()
+                Button:
+                    text: 'Cancel'
+                    on_press: app.root.current = 'manager_screen'
+                    on_release: app.root._update = True
+                    on_release: app.root._logger('Cancelled')
 
 <ControlButtonsWidget>:
     BoxLayout:
@@ -140,4 +239,5 @@ MainScreenManager:
         Button:
             text: 'Goal'
             on_press: app.root._update = False
+            on_release: app.root._logger('Goal')
             on_release: app.root.current = 'goal_screen'

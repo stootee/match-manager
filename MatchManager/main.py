@@ -13,9 +13,13 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.behaviors import ToggleButtonBehavior
+from kivy.uix.scrollview import ScrollView
+from kivy.graphics.context_instructions import Color
 from datetime import datetime
 import time
+from datetime import datetime, timedelta
 import logging
+import math
 kivy.require('1.9.1')
 
 """
@@ -30,7 +34,7 @@ TODO:
 class MainScreenManager(ScreenManager):
     _elapsedtime = NumericProperty(0)
     timestr = StringProperty()
-    _minutes = NumericProperty()
+    time_of_goal = StringProperty()
     _running = False
     _update = True
     _goals = []
@@ -49,7 +53,9 @@ class MainScreenManager(ScreenManager):
         _team_who_scored = None
         _tws_name = None
         _person_who_scored = None
-        minutes = self._minutes
+        time_of_goal = self.time_of_goal
+        minutes = datetime.strptime(time_of_goal, '%H:%M:%S.%f')
+        minutes = int(math.ceil((minutes - datetime(1900, 1, 1)).seconds / 60.0))
 
         for _t in t:
             if _t.state == 'down':
@@ -68,7 +74,7 @@ class MainScreenManager(ScreenManager):
                     self._a_scorers.append('%s (%s)' % (_s.text, minutes))
 
         if _team_who_scored and _person_who_scored:
-            self._goals.append((_team_who_scored, _person_who_scored, self.timestr),)
+            self._goals.append((_team_who_scored, _person_who_scored, time_of_goal),)
             self.current = 'manager_screen'
             self._update = True
             print self._goals
@@ -93,8 +99,6 @@ class MainScreenManager(ScreenManager):
                 self.timestr = '%02d:%02d:%02d' % (hours, minutes, seconds)
             else:
                 self.timestr = '%02d:%02d.%02d' % (minutes, seconds, hseconds)
-        else:
-            self._minutes = int(elap / 60) + 1
         return '%02d:%02d:%02d.%02d' % (hours, minutes, seconds, hseconds)
 
     def increment_time(self, interval):
@@ -130,6 +134,7 @@ class ManagerBoxUI(Screen):
 class GoalScreen(Screen):
     def __init__(self, **kwargs):
         super(GoalScreen, self).__init__(**kwargs)
+
 
 class CPopup(Popup):
     def __init__(self, **kwargs):

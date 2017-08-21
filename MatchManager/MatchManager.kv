@@ -10,7 +10,7 @@ MainScreenManager:
             ControlButtonsWidget:
                 size_hint: 1, 0.2
             BoxLayout:
-                size_hint: 1, 1
+                size_hint: 1, 0.6
                 border: 50
                 size: root.size
                 pos: root.pos
@@ -21,12 +21,23 @@ MainScreenManager:
                 Label:
                     font_size: 55
                     text: '%s - %s' % (root._home, root._away)
-                BoxLayout:
-                    orientation: 'horizontal'
-                    font_size: 10
+            BoxLayout:
+                size_hint: 1, 0.3
+                orientation: 'horizontal'
+                padding: 10
+                font_size: 20
+                ScrollView:
                     Label:
+                        size_hint_y: None
+                        text_size: self.width, None
+                        height: self.texture_size[1]
                         text: ', '.join(root._h_scorers)
+                ScrollView:
                     Label:
+                        halign: 'right'
+                        size_hint_y: None
+                        text_size: self.width, None
+                        height: self.texture_size[1]
                         text: ', '.join(root._a_scorers)
             GoalButtonWidget:
     Screen:
@@ -238,6 +249,22 @@ MainScreenManager:
         orientation: 'vertical'
         Button:
             text: 'Goal'
-            on_press: app.root._update = False
+            on_release: app.root._update = False
+            on_release: app.root.time_of_goal = app.root._set_time(app.root._elapsedtime)
             on_release: app.root._logger('Goal')
             on_release: app.root.current = 'goal_screen'
+
+<ScrollableLabel>:
+    ScrollView:
+        Label:
+            canvas:
+                Color:
+                    rgba: 0,0,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: root.text
+            font_size: 20
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
